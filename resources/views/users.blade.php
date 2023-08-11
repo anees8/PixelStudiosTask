@@ -1,9 +1,22 @@
 @extends('layouts.master')
 @section('title', 'Users')
     @section('content')
-    <div class="container fluid vh-100" style="margin-top: 5px;">
+    <div class="container fluid max-vh-100" style="margin-top: 5px;">
         <h4 style="text-align: center;">Users List</h4>
-        <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Create User</a>
+        <div class="d-flex align-items-center justify-content-end mb-2">
+       
+        <a href="{{ route('export.users') }}" class="btn btn-success mr-2">Export All Users</a>
+        <a href="{{ route('users.create') }}" class="btn btn-primary">Create User</a>
+
+        </div>
+        @if(session('message'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+    @endif
         <table class="table table-bordered table-sm table-responsive" id="data-table">
             <thead>
                 <tr>

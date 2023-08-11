@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Exports\UsersExport;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,8 @@ use App\Http\Controllers\UserController;
 Route::get('/', [UserController::class, 'index'])->name('users.index');
 
 Route::resource('users', UserController::class);
+
+
+Route::get('/export-users', function () {
+    return Excel::download(new UsersExport, 'users.xlsx');
+})->name('export.users');

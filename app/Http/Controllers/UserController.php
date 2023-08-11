@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use DataTables;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class UserController extends Controller
@@ -52,7 +54,7 @@ public function create()
      * Store a newly created resource in storage.
      */
 public function store(Request $request){
-        $validator =  $request->validate([
+    $validator = Validator::make($request->all(), [
             'name' => 'required',
             'role' => 'required',
             'email' => 'required|email|unique:users',
@@ -87,7 +89,7 @@ public function store(Request $request){
     
         $user->save();
     
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        return redirect()->route('users.index')->with('message', 'User created successfully.');
     }
     
 
@@ -124,7 +126,7 @@ public function update(Request $request, $id){
             return redirect()->route('users.index')->with('error', 'User not found.');
         }
     
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'role' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -134,6 +136,11 @@ public function update(Request $request, $id){
             'profile_image' => 'image|mimes:jpg,png|max:1024', // Max 1MB
             'address' => 'nullable',
         ]);
+        if ($validator->fails()) {
+            return redirect()->route('users.create')
+                ->withErrors($validator)
+                ->withInput()->With( $request->all());
+        }
     
         $user->name = $request->name;
         $user->role_id = $request->role;
@@ -160,7 +167,7 @@ public function update(Request $request, $id){
     
         $user->save();
     
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index')->with('message', 'User updated successfully.');
     }
     
 
@@ -176,6 +183,6 @@ public function destroy(string $id){
     
         $user->delete();
     
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.index')->with('message', 'User deleted successfully.');
     }
 }

@@ -3,10 +3,19 @@
         @section('content')
         <div class="container">
         <h2>{{ isset($user) ? 'Edit' : 'Create' }} User</h2>
+        <div class="d-flex align-items-center justify-content-start mb-2">
+       
+          
+            <a href="{{ route('users.index') }}" class="btn btn-secondary">Home</a>
+    
+            </div>
         <form action="{{ isset($user) ? route('users.update', $user->id) : route('users.store') }}" method="POST" enctype="multipart/form-data">
         @if ($errors->has('error'))
-        <div class="alert alert-danger">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
         {{ $errors->first('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         @endif
 
