@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('title', 'Users')
     @section('content')
-    <div class="container" style="margin-top: 50px;">
+    <div class="container fluid vh-100" style="margin-top: 5px;">
         <h4 style="text-align: center;">Users List</h4>
         <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Create User</a>
-        <table class="table table-bordered" id="data-table">
+        <table class="table table-bordered table-sm table-responsive" id="data-table">
             <thead>
                 <tr>
                     <th>No</th>
@@ -47,21 +47,27 @@ $(function() {
             },
             {
                 data: 'gender',
-                name: 'gender'
+                name: 'gender',
+                
             }, {
                 data: 'phone',
-                name: 'phone'
+                name: 'phone',
+               
             },
             {
                 data: 'role.name',
-                name: 'role'
+                name: 'role',
+                searchable: false,
+                
             },
             {
                 data: 'profile_image',
                 name: 'profile',
+                searchable: false,
                 render: function(data, type, full, meta) {
                 if (data) {
-                    return '<img src="' + data + '" alt="Profile Image" width="50">';
+                    var baseUrl = '{{ asset('profile_images') }}';
+                    return '<img src="' + baseUrl + '/'  + data + '" alt="Profile Image" width="50">';
                 } else {
                     return '';
                 }
@@ -71,11 +77,13 @@ $(function() {
             {
                 data: 'address',
                 name: 'address',
-                defaultContent: '' 
+                defaultContent: '' ,
+                searchable: false
             },
             {
                 data: 'status',
-                name: 'Status'
+                name: 'Status',
+                searchable: false
             },
            
             {
